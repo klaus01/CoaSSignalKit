@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'CoaSSignalKit_Example' do
+  pod 'CoaSSignalKit', :path => '../'
+
+  target 'CoaSSignalKit_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase'
+  end
+end
