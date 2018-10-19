@@ -63,9 +63,9 @@
 		64AAD0646A55DDB0F761B2A4 /* Pods-CoaSSignalKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoaSSignalKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoaSSignalKit_Tests/Pods-CoaSSignalKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8CC2F02F9EF81D1039670921 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		A1DE4CB48C640D87C902A230 /* CoaSSignalKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = CoaSSignalKit.podspec; path = ../CoaSSignalKit.podspec; sourceTree = "<group>"; };
-		ADEDBFBAE4B81BAB2F9978F0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		8CC2F02F9EF81D1039670921 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		A1DE4CB48C640D87C902A230 /* CoaSSignalKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = CoaSSignalKit.podspec; path = ../CoaSSignalKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		ADEDBFBAE4B81BAB2F9978F0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D59402B95ECB72B89972CCD7 /* Pods-CoaSSignalKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoaSSignalKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoaSSignalKit_Example/Pods-CoaSSignalKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

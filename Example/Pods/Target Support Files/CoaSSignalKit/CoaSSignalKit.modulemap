@@ -1,0 +1,6 @@
+framework module CoaSSignalKit {
+  umbrella header "CoaSSignalKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
