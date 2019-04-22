@@ -4,6 +4,9 @@
 {
 }
 
+@property (nonatomic, readonly) id<SDisposable> disposable;
+@property (nonatomic, readonly) BOOL terminated;
+
 - (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed;
 
 - (void)_assignDisposable:(id<SDisposable>)disposable;

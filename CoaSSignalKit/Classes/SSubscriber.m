@@ -1,6 +1,6 @@
 #import "SSubscriber.h"
-
 #import <libkern/OSAtomic.h>
+#import <pthread.h>
 
 @interface SSubscriberBlocks : NSObject {
     @public
@@ -28,7 +28,7 @@
 @interface SSubscriber ()
 {
     @protected
-    OSSpinLock _lock;
+    pthread_mutex_t _lock;
     bool _terminated;
     id<SDisposable> _disposable;
     SSubscriberBlocks *_blocks;
@@ -38,26 +38,39 @@
 
 @implementation SSubscriber
 
+- (id<SDisposable>)disposable {
+    return _disposable;
+}
+
+- (BOOL)terminated {
+    return _terminated;
+}
+
 - (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed
 {
     self = [super init];
     if (self != nil)
     {
         _blocks = [[SSubscriberBlocks alloc] initWithNext:next error:error completed:completed];
+        pthread_mutex_init(&_lock, NULL);
     }
     return self;
+}
+
+- (void)dealloc {
+    pthread_mutex_destroy(&_lock);
 }
 
 - (void)_assignDisposable:(id<SDisposable>)disposable
 {
     bool dispose = false;
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (_terminated) {
         dispose = true;
     } else {
         _disposable = disposable;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     if (dispose) {
         [disposable dispose];
     }
@@ -65,7 +78,7 @@
 
 - (void)_markTerminatedWithoutDisposal
 {
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     SSubscriberBlocks *blocks = nil;
     if (!_terminated)
     {
@@ -74,7 +87,7 @@
         
         _terminated = true;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (blocks) {
         blocks = nil;
@@ -85,11 +98,11 @@
 {
     SSubscriberBlocks *blocks = nil;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (!_terminated) {
         blocks = _blocks;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (blocks && blocks->_next) {
         blocks->_next(next);
@@ -101,7 +114,7 @@
     bool shouldDispose = false;
     SSubscriberBlocks *blocks = nil;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (!_terminated)
     {
         blocks = _blocks;
@@ -110,7 +123,7 @@
         shouldDispose = true;
         _terminated = true;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (blocks && blocks->_error) {
         blocks->_error(error);
@@ -125,7 +138,7 @@
     bool shouldDispose = false;
     SSubscriberBlocks *blocks = nil;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (!_terminated)
     {
         blocks = _blocks;
@@ -134,7 +147,7 @@
         shouldDispose = true;
         _terminated = true;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (blocks && blocks->_completed)
         blocks->_completed();
@@ -168,109 +181,5 @@
     }
     return self;
 }
-
-/*- (void)_assignDisposable:(id<SDisposable>)disposable
-{
-    if (_terminated)
-        [disposable dispose];
-    else
-        _disposable = disposable;
-}
-
-- (void)_markTerminatedWithoutDisposal
-{
-    OSSpinLockLock(&_lock);
-    if (!_terminated)
-    {
-        NSLog(@"trace(%@ terminated)", _name);
-        _terminated = true;
-        _next = nil;
-        _error = nil;
-        _completed = nil;
-    }
-    OSSpinLockUnlock(&_lock);
-}
-
-- (void)putNext:(id)next
-{
-    void (^fnext)(id) = nil;
-    
-    OSSpinLockLock(&_lock);
-    if (!_terminated)
-        fnext = self->_next;
-    OSSpinLockUnlock(&_lock);
-    
-    if (fnext)
-    {
-        NSLog(@"trace(%@ next: %@)", _name, next);
-        fnext(next);
-    }
-    else
-        NSLog(@"trace(%@ next: %@, not accepted)", _name, next);
-}
-
-- (void)putError:(id)error
-{
-    bool shouldDispose = false;
-    void (^ferror)(id) = nil;
-    
-    OSSpinLockLock(&_lock);
-    if (!_terminated)
-    {
-        ferror = self->_error;
-        shouldDispose = true;
-        self->_next = nil;
-        self->_error = nil;
-        self->_completed = nil;
-        _terminated = true;
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    if (ferror)
-    {
-        NSLog(@"trace(%@ error: %@)", _name, error);
-        ferror(error);
-    }
-    else
-        NSLog(@"trace(%@ error: %@, not accepted)", _name, error);
-    
-    if (shouldDispose)
-        [self->_disposable dispose];
-}
-
-- (void)putCompletion
-{
-    bool shouldDispose = false;
-    void (^completed)() = nil;
-    
-    OSSpinLockLock(&_lock);
-    if (!_terminated)
-    {
-        completed = self->_completed;
-        shouldDispose = true;
-        self->_next = nil;
-        self->_error = nil;
-        self->_completed = nil;
-        _terminated = true;
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    if (completed)
-    {
-        NSLog(@"trace(%@ completed)", _name);
-        completed();
-    }
-    else
-        NSLog(@"trace(%@ completed, not accepted)", _name);
-    
-    if (shouldDispose)
-        [self->_disposable dispose];
-}
-
-- (void)dispose
-{
-    NSLog(@"trace(%@ dispose)", _name);
-    [self->_disposable dispose];
-}*/
 
 @end

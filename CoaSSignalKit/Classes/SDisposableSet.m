@@ -3,10 +3,11 @@
 #import "SSignal.h"
 
 #import <libkern/OSAtomic.h>
+#import <pthread.h>
 
 @interface SDisposableSet ()
 {
-    OSSpinLock _lock;
+    pthread_mutex_t _lock;
     bool _disposed;
     id<SDisposable> _singleDisposable;
     NSArray *_multipleDisposables;
@@ -16,6 +17,17 @@
 
 @implementation SDisposableSet
 
+- (id)init {
+    if (self = [super init]) {
+        pthread_mutex_init(&_lock, NULL);
+    }
+    return self;
+}
+
+- (void)dealloc {
+    pthread_mutex_destroy(&_lock);
+}
+
 - (void)add:(id<SDisposable>)disposable
 {
     if (disposable == nil)
@@ -23,7 +35,7 @@
     
     bool dispose = false;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     dispose = _disposed;
     if (!dispose)
     {
@@ -44,14 +56,14 @@
             _singleDisposable = disposable;
         }
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (dispose)
         [disposable dispose];
 }
 
 - (void)remove:(id<SDisposable>)disposable {
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (_multipleDisposables != nil)
     {
         NSMutableArray *multipleDisposables = [[NSMutableArray alloc] initWithArray:_multipleDisposables];
@@ -62,7 +74,7 @@
     {
         _singleDisposable = nil;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
 }
 
 - (void)dispose
@@ -70,7 +82,7 @@
     id<SDisposable> singleDisposable = nil;
     NSArray *multipleDisposables = nil;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (!_disposed)
     {
         _disposed = true;
@@ -79,7 +91,7 @@
         _singleDisposable = nil;
         _multipleDisposables = nil;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (singleDisposable != nil)
         [singleDisposable dispose];

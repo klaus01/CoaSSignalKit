@@ -1,10 +1,11 @@
 #import "SMetaDisposable.h"
 
 #import <libkern/OSAtomic.h>
+#import <pthread.h>
 
 @interface SMetaDisposable ()
 {
-    OSSpinLock _lock;
+    pthread_mutex_t _lock;
     bool _disposed;
     id<SDisposable> _disposable;
 }
@@ -13,19 +14,30 @@
 
 @implementation SMetaDisposable
 
+- (id)init {
+    if (self = [super init]) {
+        pthread_mutex_init(&_lock, NULL);
+    }
+    return self;
+}
+
+- (void)dealloc {
+    pthread_mutex_destroy(&_lock);
+}
+
 - (void)setDisposable:(id<SDisposable>)disposable
 {
     id<SDisposable> previousDisposable = nil;
     bool dispose = false;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     dispose = _disposed;
     if (!dispose)
     {
         previousDisposable = _disposable;
         _disposable = disposable;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (previousDisposable != nil)
         [previousDisposable dispose];
@@ -38,13 +50,13 @@
 {
     id<SDisposable> disposable = nil;
     
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (!_disposed)
     {
         disposable = _disposable;
         _disposed = true;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (disposable != nil)
         [disposable dispose];

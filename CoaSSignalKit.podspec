@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CoaSSignalKit'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'CoaSSignalKit Rx- and RAC-3.0-inspired FRP framework'
 
 # This description is used to generate tags and improve search results.

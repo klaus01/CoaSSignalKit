@@ -5,12 +5,12 @@
 #import "SSignal+Mapping.h"
 #import "SAtomic.h"
 #import "SSignal+Pipe.h"
-
+#import <pthread.h>
 #import <libkern/OSAtomic.h>
 
 @interface SSignalQueueState : NSObject <SDisposable>
 {
-    OSSpinLock _lock;
+    pthread_mutex_t _lock;
     bool _executingSignal;
     bool _terminated;
     
@@ -32,6 +32,7 @@
     self = [super init];
     if (self != nil)
     {
+        pthread_mutex_init(&_lock, NULL);
         _subscriber = subscriber;
         _currentDisposable = [[SMetaDisposable alloc] init];
         _queuedSignals = queueMode ? [[NSMutableArray alloc] init] : nil;
@@ -39,6 +40,10 @@
         _throttleMode = throttleMode;
     }
     return self;
+}
+
+- (void)dealloc {
+    pthread_mutex_destroy(&_lock);
 }
 
 - (void)beginWithDisposable:(id<SDisposable>)disposable
@@ -49,7 +54,7 @@
 - (void)enqueueSignal:(SSignal *)signal
 {
     bool startSignal = false;
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     if (_queueMode && _executingSignal) {
         if (_throttleMode) {
             [_queuedSignals removeAllObjects];
@@ -61,7 +66,7 @@
         _executingSignal = true;
         startSignal = true;
     }
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (startSignal)
     {
@@ -86,57 +91,64 @@
 
 - (void)headCompleted
 {
-    SSignal *nextSignal = nil;
-    
-    bool terminated = false;
-    OSSpinLockLock(&_lock);
-    _executingSignal = false;
-    
-    if (_queueMode)
-    {
-        if (_queuedSignals.count != 0)
+    while (YES) {
+        SAtomic *leftFunction = [[SAtomic alloc] initWithValue:@NO];
+        SSignal *nextSignal = nil;
+        
+        bool terminated = false;
+        pthread_mutex_lock(&_lock);
+        _executingSignal = false;
+        
+        if (_queueMode)
         {
-            nextSignal = _queuedSignals[0];
-            [_queuedSignals removeObjectAtIndex:0];
-            _executingSignal = true;
+            if (_queuedSignals.count != 0)
+            {
+                nextSignal = _queuedSignals[0];
+                [_queuedSignals removeObjectAtIndex:0];
+                _executingSignal = true;
+            }
+            else
+                terminated = _terminated;
         }
         else
             terminated = _terminated;
-    }
-    else
-        terminated = _terminated;
-    OSSpinLockUnlock(&_lock);
-    
-    if (terminated)
-        [_subscriber putCompletion];
-    else if (nextSignal != nil)
-    {
-        __weak SSignalQueueState *weakSelf = self;
-        id<SDisposable> disposable = [nextSignal startWithNext:^(id next)
-        {
-            [_subscriber putNext:next];
-        } error:^(id error)
-        {
-            [_subscriber putError:error];
-        } completed:^
-        {
-            __strong SSignalQueueState *strongSelf = weakSelf;
-            if (strongSelf != nil) {
-                [strongSelf headCompleted];
-            }
-        }];
+        pthread_mutex_unlock(&_lock);
         
-        [_currentDisposable setDisposable:disposable];
+        if (terminated)
+            [_subscriber putCompletion];
+        else if (nextSignal != nil)
+        {
+            __weak SSignalQueueState *weakSelf = self;
+            id<SDisposable> disposable = [nextSignal startWithNext:^(id next)
+                                          {
+                                              [_subscriber putNext:next];
+                                          } error:^(id error)
+                                          {
+                                              [_subscriber putError:error];
+                                          } completed:^
+                                          {
+                                              __strong SSignalQueueState *strongSelf = weakSelf;
+                                              if (strongSelf != nil && [[leftFunction swap:@YES] boolValue]) {
+                                                  [strongSelf headCompleted];
+                                              }
+                                          }];
+            
+            [_currentDisposable setDisposable:disposable];
+        }
+        
+        if (![[leftFunction swap:@YES] boolValue]) {
+            break;
+        }
     }
 }
 
 - (void)beginCompletion
 {
     bool executingSignal = false;
-    OSSpinLockLock(&_lock);
+    pthread_mutex_lock(&_lock);
     executingSignal = _executingSignal;
     _terminated = true;
-    OSSpinLockUnlock(&_lock);
+    pthread_mutex_unlock(&_lock);
     
     if (!executingSignal)
         [_subscriber putCompletion];
