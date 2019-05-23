@@ -2,6 +2,25 @@
 
 #import "SAtomic.h"
 
+@interface SignalTakeAction()
+
+@property (nonatomic) BOOL passThrough;
+@property (nonatomic) BOOL complete;
+
+@end
+
+@implementation SignalTakeAction
+
+- (id)initWithPassThrough:(BOOL)passThrough complete:(BOOL)complete {
+    if (self = [super init]) {
+        self.passThrough = passThrough;
+        self.complete = complete;
+    }
+    return self;
+}
+
+@end
+
 @interface SSignal_ValueContainer : NSObject
 
 @property (nonatomic, strong, readonly) id value;
@@ -19,6 +38,7 @@
 }
 
 @end
+
 
 @implementation SSignal (Take)
 
@@ -55,6 +75,24 @@
     }];
 }
 
+- (SSignal *)takeUtil:(SignalTakeAction *(^)(id))until {
+    return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber) {
+        return [self startWithNext:^(id next) {
+            SignalTakeAction *action = until(next);
+            if (action.passThrough) {
+                [subscriber putNext:next];
+            }
+            if (action.complete) {
+                [subscriber putCompletion];
+            }
+        } error:^(id error) {
+            [subscriber putError:error];
+        } completed:^{
+            [subscriber putCompletion];
+        }];
+    }];
+}
+
 - (SSignal *)takeLast
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
@@ -79,6 +117,8 @@
         }];
     }];
 }
+
+
 
 - (SSignal *)takeUntilReplacement:(SSignal *)replacement {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber) {

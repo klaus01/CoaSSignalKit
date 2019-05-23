@@ -1,6 +1,6 @@
 {
   "name": "CoaSSignalKit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "CoaSSignalKit Rx- and RAC-3.0-inspired FRP framework",
   "description": "CoaSSignalKit An experimental Rx- and RAC-3.0-inspired FRP framework",
   "homepage": "https://github.com/sherlockmm/CoaSSignalKit",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/sherlockmm/CoaSSignalKit.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "8.0"

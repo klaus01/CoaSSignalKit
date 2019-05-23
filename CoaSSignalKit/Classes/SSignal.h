@@ -6,6 +6,8 @@
     id<SDisposable> (^_generator)(SSubscriber *);
 }
 
+@property (nonatomic) int value;
+
 - (instancetype)initWithGenerator:(id<SDisposable> (^)(SSubscriber *))generator;
 
 - (id<SDisposable>)startWithNext:(void (^)(id next))next error:(void (^)(id error))error completed:(void (^)())completed;
