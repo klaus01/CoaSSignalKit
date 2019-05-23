@@ -152,6 +152,58 @@
         return disposable;
     }];
 }
+- (SSignal *)throttleToLastOn:(SQueue *)queue delay:(NSTimeInterval)delay {
+    return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber) {
+        SAtomic *value = [[SAtomic alloc] initWithValue:nil];
+        STimer *timer = [[STimer alloc] initWithTimeout:delay repeat:false completion:^{
+            [value modify:^id(SSignal_ThrottleContainer *container) {
+                if (container != nil) {
+                    if (!container.committed) {
+                        [subscriber putNext:container.value];
+                        container = [[SSignal_ThrottleContainer alloc] initWithValue:container.value committed:true last:container.last];
+                    }
+                    
+                    if (container.last) {
+                        [subscriber putCompletion];
+                    }
+                }
+                return container;
+            }];
+        } queue:queue];
+        
+        return [[self deliverOn:queue] startWithNext:^(id next) {
+            [value modify:^id(SSignal_ThrottleContainer *container) {
+                container = [[SSignal_ThrottleContainer alloc] initWithValue:next committed:false last:false];
+                return container;
+            }];
+            [timer invalidate];
+            [timer start];
+        } error:^(id error) {
+            [timer invalidate];
+            [subscriber putError:error];
+        } completed:^{
+            [timer invalidate];
+            __block bool start = false;
+            [value modify:^id(SSignal_ThrottleContainer *container) {
+                bool wasCommitted = false;
+                if (container == nil) {
+                    wasCommitted = true;
+                    container = [[SSignal_ThrottleContainer alloc] initWithValue:nil committed:true last:true];
+                } else {
+                    wasCommitted = container.committed;
+                    container = [[SSignal_ThrottleContainer alloc] initWithValue:container.value committed:container.committed last:true];
+                }
+                start = wasCommitted;
+                return container;
+            }];
+            if (start) {
+                [timer start];
+            } else {
+                [timer fireAndInvalidate];
+            }
+        }];
+    }];
+}
 
 - (SSignal *)throttleOn:(SQueue *)queue delay:(NSTimeInterval)delay
 {

@@ -10,5 +10,6 @@
 - (SSignal *)startOn:(SQueue *)queue;
 - (SSignal *)startOnThreadPool:(SThreadPool *)threadPool;
 - (SSignal *)throttleOn:(SQueue *)queue delay:(NSTimeInterval)delay;
+- (SSignal *)throttleToLastOn:(SQueue *)queue delay:(NSTimeInterval)delay;
 
 @end
