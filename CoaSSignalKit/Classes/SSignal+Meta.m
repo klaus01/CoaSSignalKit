@@ -13,15 +13,14 @@
     pthread_mutex_t _lock;
     bool _executingSignal;
     bool _terminated;
-    
-    id<SDisposable> _disposable;
-    SMetaDisposable *_currentDisposable;
-    SSubscriber *_subscriber;
-    
-    NSMutableArray *_queuedSignals;
     bool _queueMode;
     bool _throttleMode;
 }
+
+@property (nonatomic) id<SDisposable> disposable;
+@property (nonatomic) SMetaDisposable *currentDisposable;
+@property (nonatomic, weak) SSubscriber *subscriber;
+@property (nonatomic) NSMutableArray *queuedSignals;
 
 @end
 
@@ -33,9 +32,9 @@
     if (self != nil)
     {
         pthread_mutex_init(&_lock, NULL);
-        _subscriber = subscriber;
-        _currentDisposable = [[SMetaDisposable alloc] init];
-        _queuedSignals = queueMode ? [[NSMutableArray alloc] init] : nil;
+        self.subscriber = subscriber;
+        self.currentDisposable = [[SMetaDisposable alloc] init];
+        self.queuedSignals = queueMode ? [[NSMutableArray alloc] init] : nil;
         _queueMode = queueMode;
         _throttleMode = throttleMode;
     }
