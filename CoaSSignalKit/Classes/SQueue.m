@@ -112,6 +112,19 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
     }
 }
 
+- (void)justDispatch:(dispatch_block_t)block {
+    dispatch_async(_queue, block);
+}
+
+- (void)justDispatchWithQos:(dispatch_queue_t)qos f:(dispatch_block_t)f {
+    dispatch_group_async(dispatch_group_create(), qos, f);
+}
+
+- (void)after:(double)delay f:(dispatch_block_t)f {
+    dispatch_time_t time = DISPATCH_TIME_NOW + delay;
+    dispatch_after(time, _queue, f);
+}
+
 - (bool)isCurrentQueue
 {
     if (_queueSpecific != NULL && dispatch_get_specific(SQueueSpecificKey) == _queueSpecific)
