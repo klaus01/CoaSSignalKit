@@ -287,6 +287,19 @@
     }];
 }
 
+- (SSignal *)ignoreValues {
+    return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber) {
+        [self startWithNext:^(id next) {
+            
+        } error:^(id error) {
+            [subscriber putError:error];
+        } completed:^{
+            [subscriber putCompletion];
+        }];
+        return nil;
+    }];
+}
+
 @end
 
 @interface SSignalQueue () {

@@ -72,3 +72,35 @@
 }
 
 @end
+
+@interface CounterBag ()
+@property (nonatomic, assign) NSInteger nextIndex;
+@property (nonatomic, strong) NSMutableSet *items;
+@end
+
+@implementation CounterBag
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _nextIndex = 1;
+        _items = [NSMutableSet set];
+    }
+    return self;
+}
+
+- (BOOL)isEmpty {
+    return self.items.count == 0;
+}
+
+- (NSInteger)add {
+    NSInteger index = self.nextIndex;
+    self.nextIndex += 1;
+    [self.items addObject:@(index)];
+    return index;
+}
+
+- (void)removeAtIndex:(NSInteger)index {
+    [self.items removeObject:@(index)];
+}
+@end

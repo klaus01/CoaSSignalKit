@@ -12,6 +12,7 @@
 - (SSignal *)queue;
 - (SSignal *)throttled;
 + (SSignal *)defer:(SSignal *(^)())generator;
+- (SSignal *)ignoreValues;
 
 @end
 

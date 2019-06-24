@@ -10,6 +10,8 @@
 #endif
 #endif
 
+#import "Promise.h"
+#import "QueueLocalObject.h"
 #import "SAtomic.h"
 #import "SBag.h"
 #import "SBlockDisposable.h"
@@ -38,6 +40,7 @@
 #import "SThreadPoolTask.h"
 #import "STimer.h"
 #import "SVariable.h"
+#import "ValuePipe.h"
 
 FOUNDATION_EXPORT double CoaSSignalKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char CoaSSignalKitVersionString[];

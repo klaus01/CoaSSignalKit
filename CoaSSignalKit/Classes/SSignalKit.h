@@ -43,3 +43,6 @@ FOUNDATION_EXPORT const unsigned char SSignalKitVersionString[];
 #import <CoaSSignalKit/SMulticastSignalManager.h>
 #import <CoaSSignalKit/STimer.h>
 #import <CoaSSignalKit/SVariable.h>
+#import <CoaSSignalKit/Promise.h>
+#import <CoaSSignalKit/QueueLocalObject.h>
+#import <CoaSSignalKit/ValuePipe.h>

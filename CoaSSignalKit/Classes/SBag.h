@@ -9,3 +9,11 @@
 - (NSArray *)copyItems;
 
 @end
+
+@interface CounterBag : NSObject
+@property (nonatomic, assign, readonly) BOOL isEmpty;
+
+- (NSInteger)add;
+- (void)removeAtIndex:(NSInteger)index;
+
+@end
