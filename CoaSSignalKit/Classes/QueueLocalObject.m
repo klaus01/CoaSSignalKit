@@ -13,7 +13,7 @@
             if (generate) {
                 id value = generate();
                 if (value) {
-                    weakSelf.valeueRef = value;
+                    weakSelf.valueRef = value;
                 }
             }
         } synchronous:false];
@@ -23,9 +23,9 @@
 
 - (void)dealloc
 {
-    if (self.valeueRef) {
+    if (self.valueRef) {
         [self.queue dispatch:^{
-            //            self.valeueRef = nil;
+            //            self.valueRef = nil;
         } synchronous:false];
     }
 }
@@ -34,9 +34,9 @@
 {
     __weak typeof(self) weakSelf = self;
     [self.queue dispatch:^{
-        if (self.valeueRef) {
+        if (self.valueRef) {
             if (f) {
-                f(weakSelf.valeueRef);
+                f(weakSelf.valueRef);
             }
         }
     } synchronous:false];
@@ -48,9 +48,9 @@
     __weak typeof(self) weakSelf = self;
     [self.queue dispatchSync:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.valeueRef) {
+        if (strongSelf.valueRef) {
             if (f) {
-                result = f(strongSelf.valeueRef);
+                result = f(strongSelf.valueRef);
             }
         }
     }];
@@ -62,15 +62,11 @@
     __weak typeof(self) weakSelf = self;
     return [[[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber * subscriber) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf && strongSelf.valeueRef) {
-            if (f) {
-                return f(strongSelf.valeueRef, subscriber);
-            }else {
-                return nil;
-            }
+        if (strongSelf && strongSelf.valueRef && f) {
+             return f(strongSelf.valueRef, subscriber);
         }else {
             return [[SMetaDisposable alloc] init];
-        }
+       }
     }] startOn:self.queue];
 }
 

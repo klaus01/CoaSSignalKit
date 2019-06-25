@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class SDisposableSet, SSignal, SQueue, SSubscriber;
 @interface QueueLocalObject<__covariant T> : NSObject
 @property (nonatomic, strong) SQueue *queue;
-@property (nullable, nonatomic, strong) T valeueRef;
+@property (nullable, nonatomic, strong) T valueRef;
 
 - (instancetype)initWithQueue:(SQueue *)queue
                      generate:(T(^)(void))generate;
