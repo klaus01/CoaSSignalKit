@@ -62,6 +62,18 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
     return [self initWithNativeQueue:queue queueSpecific:(__bridge void *)self];
 }
 
+- (SQueue *)initWithName:(NSString *)name qos:(dispatch_qos_class_t)qos {
+    if (self = [super init]) {
+        dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos, 0);
+        dispatch_queue_t queue = dispatch_queue_create(name ? name.UTF8String : "", attr);
+        _specialIsMainQueue = false;
+        _queueSpecific = (__bridge void *)self;
+        _queue = queue;
+        dispatch_queue_set_specific(_queue, SQueueSpecificKey, (__bridge void *)self, NULL);
+    }
+    return self;
+}
+
 - (instancetype)initWithNativeQueue:(dispatch_queue_t)queue queueSpecific:(void *)queueSpecific
 {
     self = [super init];
@@ -112,12 +124,29 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
     }
 }
 
+- (void)async:(dispatch_block_t)f {
+    if (self.isCurrentQueue) {
+        f();
+    }else {
+        dispatch_async(_queue, f);
+    }
+}
+
+- (void)sync:(dispatch_block_t)f {
+    if (self.isCurrentQueue) {
+        f();
+    }else {
+        dispatch_sync(_queue, f);
+    }
+}
+
 - (void)justDispatch:(dispatch_block_t)block {
     dispatch_async(_queue, block);
 }
 
-- (void)justDispatchWithQos:(dispatch_queue_t)qos f:(dispatch_block_t)f {
-    dispatch_group_async(dispatch_group_create(), qos, f);
+- (void)justDispatchWithQos:(dispatch_qos_class_t)qos f:(dispatch_block_t)f {
+    dispatch_block_t qosBlock = dispatch_block_create_with_qos_class(DISPATCH_BLOCK_ENFORCE_QOS_CLASS, qos, 0, f);
+    dispatch_async(_queue, qosBlock);
 }
 
 - (void)after:(double)delay f:(dispatch_block_t)f {
