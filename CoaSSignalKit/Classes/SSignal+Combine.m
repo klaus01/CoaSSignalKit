@@ -80,7 +80,6 @@
                     latestValues[i] = value;
                 }
                 
-                printf("\n signalFinishCount:%ld totalCombineCount:%ld \n", currentState.latestValues.allValues.count, signals.count);
                 if (latestValues != nil) {
                     [subscriber putNext:latestValues];
                 }
