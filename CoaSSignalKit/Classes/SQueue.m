@@ -150,8 +150,7 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
 }
 
 - (void)after:(double)delay f:(dispatch_block_t)f {
-    dispatch_time_t time = DISPATCH_TIME_NOW + delay;
-    dispatch_after(time, _queue, f);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), _queue, f);
 }
 
 - (bool)isCurrentQueue
