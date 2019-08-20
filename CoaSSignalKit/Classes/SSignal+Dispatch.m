@@ -119,6 +119,51 @@
     }];
 }
 
+- (SSignal *)runOn:(SQueue *)queue {
+    return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
+            {
+                SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
+                if (queue.isCurrentQueue) {
+                    return [self startWithNext:^(id next)
+                            {
+                                [subscriber putNext:next];
+                            } error:^(id error)
+                            {
+                                [subscriber putError:error];
+                            } completed:^
+                            {
+                                [subscriber putCompletion];
+                            }];
+                } else {
+                    BOOL cacnelled = NO;
+                    __block bool isCancelled = false;
+                    SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
+                    [disposable setDisposable:[[SBlockDisposable alloc] initWithBlock:^
+                                               {
+                                                   isCancelled = true;
+                                               }]];
+                    
+                    [queue dispatch:^
+                     {
+                         if (!isCancelled)
+                         {
+                             [disposable setDisposable:[self startWithNext:^(id next)
+                                                        {
+                                                            [subscriber putNext:next];
+                                                        } error:^(id error)
+                                                        {
+                                                            [subscriber putError:error];
+                                                        } completed:^
+                                                        {
+                                                            [subscriber putCompletion];
+                                                        }]];
+                         }
+                     }];
+                    return disposable;
+                }
+            }];
+}
+
 - (SSignal *)startOnThreadPool:(SThreadPool *)threadPool
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)

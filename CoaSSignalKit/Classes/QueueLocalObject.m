@@ -1,6 +1,12 @@
 #import "QueueLocalObject.h"
 #import <CoaSSignalKit/SSignalKit.h>
 
+@interface QueueLocalObject()
+
+@property (nonatomic, unsafe_unretained) id valueRef;
+
+@end
+
 @implementation QueueLocalObject
 
 - (instancetype)initWithQueue:(SQueue *)queue
@@ -13,7 +19,7 @@
             if (generate) {
                 id value = generate();
                 if (value) {
-                    weakSelf.valueRef = value;
+                    weakSelf.valueRef = (__bridge id)(CFRetain((__bridge CFTypeRef)value));
                 }
             }
         } synchronous:false];
@@ -21,53 +27,47 @@
     return self;
 }
 
-- (void)dealloc
-{
-    if (self.valueRef) {
-        [self.queue dispatch:^{
-            //            self.valueRef = nil;
-        } synchronous:false];
-    }
+- (void)dealloc {
+    id valueRef = self.valueRef;
+    [self.queue dispatch:^{
+        CFRelease((__bridge CFTypeRef)(valueRef));
+    } synchronous:false];
 }
 
-- (void)with:(void (^)(id))f
-{
+- (void)with:(void (^)(id))f {
     __weak typeof(self) weakSelf = self;
     [self.queue dispatch:^{
-        if (self.valueRef) {
-            if (f) {
-                f(weakSelf.valueRef);
-            }
+        id value;
+        if ((value = self.valueRef)) {
+            f(value);
         }
     } synchronous:false];
 }
 
-- (id)syncWith:(id(^)(id))f
-{
+- (id)syncWith:(id(^)(id))f {
     __block id result = nil;
     __weak typeof(self) weakSelf = self;
     [self.queue dispatchSync:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.valueRef) {
-            if (f) {
-                result = f(strongSelf.valueRef);
-            }
+        id valueRef;
+        if ((valueRef = strongSelf.valueRef)) {
+            result = f(valueRef);
         }
     }];
     return result;
 }
 
-- (SSignal *)signalWith:(SDisposableSet *(^)(id, SSubscriber *sbuscriber))f
-{
+- (SSignal *)signalWith:(SDisposableSet *(^)(id, SSubscriber *sbuscriber))f {
     __weak typeof(self) weakSelf = self;
     return [[[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber * subscriber) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf && strongSelf.valueRef && f) {
-             return f(strongSelf.valueRef, subscriber);
+        id valueRef;
+        if (strongSelf && (valueRef = strongSelf.valueRef) && f) {
+             return f(valueRef, subscriber);
         }else {
             return [[SMetaDisposable alloc] init];
        }
-    }] startOn:self.queue];
+    }] runOn:self.queue];
 }
 
 
