@@ -20,6 +20,8 @@
 		35892A6B61D0ECD6E36FCF0622D69C2C /* SSignal+Take.h in Headers */ = {isa = PBXBuildFile; fileRef = D3C8605A42400D204325E80F41FBB627 /* SSignal+Take.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		371DB4EF02C39688AB6F04CF6BB71F2C /* SSignal+Mapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 335487545710D70CDA65625A3956C156 /* SSignal+Mapping.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3A10AC7A48EAD938C050D4B419CC3E42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		407CBE32238FB16F00D760D4 /* SActionDisposable.h in Headers */ = {isa = PBXBuildFile; fileRef = 407CBE30238FB16F00D760D4 /* SActionDisposable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		407CBE33238FB16F00D760D4 /* SActionDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 407CBE31238FB16F00D760D4 /* SActionDisposable.m */; };
 		42491657E2DEE0EDEAEFAC8EF759554E /* SMulticastSignalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D772EE2A11B52E25E455F204B63EE8 /* SMulticastSignalManager.m */; };
 		429472344A2D7D194555627311B18FB9 /* SThreadPoolTask.h in Headers */ = {isa = PBXBuildFile; fileRef = D19827FBE966644349075CF38797EACF /* SThreadPoolTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46B5522862E6EBC8676FFD3A59C4D988 /* CoaSSignalKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0022072BF8DFA31A29515140652B1C25 /* CoaSSignalKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -114,6 +116,8 @@
 		3329F89A183D8CD1E70D657EF3E12006 /* CoaSSignalKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "CoaSSignalKit-Info.plist"; sourceTree = "<group>"; };
 		335487545710D70CDA65625A3956C156 /* SSignal+Mapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+Mapping.h"; path = "CoaSSignalKit/Classes/SSignal+Mapping.h"; sourceTree = "<group>"; };
 		3BFA47F71D7A79B3AB8D10BB7E68543E /* SSignal+SideEffects.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+SideEffects.m"; path = "CoaSSignalKit/Classes/SSignal+SideEffects.m"; sourceTree = "<group>"; };
+		407CBE30238FB16F00D760D4 /* SActionDisposable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SActionDisposable.h; path = CoaSSignalKit/Classes/SActionDisposable.h; sourceTree = "<group>"; };
+		407CBE31238FB16F00D760D4 /* SActionDisposable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SActionDisposable.m; path = CoaSSignalKit/Classes/SActionDisposable.m; sourceTree = "<group>"; };
 		415BF191D62B36A0FDA21483A8F6FF00 /* Pods-CoaSSignalKit_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-CoaSSignalKit_Tests-umbrella.h"; sourceTree = "<group>"; };
 		439FF3B2BCADF7793669F3F82C8320B4 /* Pods-CoaSSignalKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-CoaSSignalKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		45EBB20C3DAC44E332A848DF7B4D531D /* SAtomic.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SAtomic.h; path = CoaSSignalKit/Classes/SAtomic.h; sourceTree = "<group>"; };
@@ -135,7 +139,7 @@
 		6C2FBEC87C37028BEE0476A65A388898 /* SSignal+Timing.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+Timing.h"; path = "CoaSSignalKit/Classes/SSignal+Timing.h"; sourceTree = "<group>"; };
 		6F89BA48EEBB86332BF646031D407822 /* Pods-CoaSSignalKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CoaSSignalKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		7308141B2E09137EF23D5BE67E9A981D /* ValuePipe.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ValuePipe.h; path = CoaSSignalKit/Classes/ValuePipe.h; sourceTree = "<group>"; };
-		7317F589FF12C26C68470FFB4864C9CD /* Pods_CoaSSignalKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_CoaSSignalKit_Tests.framework; path = "Pods-CoaSSignalKit_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7317F589FF12C26C68470FFB4864C9CD /* Pods_CoaSSignalKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoaSSignalKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7665C9607C80BC5CF8C373696EBA34DD /* CoaSSignalKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CoaSSignalKit-dummy.m"; sourceTree = "<group>"; };
 		77D772EE2A11B52E25E455F204B63EE8 /* SMulticastSignalManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SMulticastSignalManager.m; path = CoaSSignalKit/Classes/SMulticastSignalManager.m; sourceTree = "<group>"; };
 		7809F3A80641FD46416CAC4CEDB2EC93 /* SSignal+Timing.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+Timing.m"; path = "CoaSSignalKit/Classes/SSignal+Timing.m"; sourceTree = "<group>"; };
@@ -144,26 +148,26 @@
 		80C9918F7C3ED5E1484C17FE6712B4B5 /* SSignal+Accumulate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+Accumulate.h"; path = "CoaSSignalKit/Classes/SSignal+Accumulate.h"; sourceTree = "<group>"; };
 		860E3E1F6968C079D7BE70641F37C417 /* ValuePipe.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ValuePipe.m; path = CoaSSignalKit/Classes/ValuePipe.m; sourceTree = "<group>"; };
 		8CD03EE3BE021C450B5E460ECE4B9836 /* SThreadPoolQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SThreadPoolQueue.h; path = CoaSSignalKit/Classes/SThreadPoolQueue.h; sourceTree = "<group>"; };
-		8FE08648DC7EC7A1FF465839256F2BBB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		94AE17F449A9C94D8C6FE8CD24AEBA06 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		8FE08648DC7EC7A1FF465839256F2BBB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		94AE17F449A9C94D8C6FE8CD24AEBA06 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		96B0C32F46FF23D72B1F2F025C14420F /* SBlockDisposable.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SBlockDisposable.m; path = CoaSSignalKit/Classes/SBlockDisposable.m; sourceTree = "<group>"; };
 		96C86BE9244A16832B5C9C6EF85286EF /* SSignal+Pipe.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+Pipe.h"; path = "CoaSSignalKit/Classes/SSignal+Pipe.h"; sourceTree = "<group>"; };
 		9886A8C879C5906D6D68B55D3E82ED31 /* SBlockDisposable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SBlockDisposable.h; path = CoaSSignalKit/Classes/SBlockDisposable.h; sourceTree = "<group>"; };
 		99B0629826B817D327BF4D6CCE8631CA /* SSignal+Combine.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+Combine.m"; path = "CoaSSignalKit/Classes/SSignal+Combine.m"; sourceTree = "<group>"; };
 		9BA097F025C0020915B71177391986A9 /* SQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SQueue.h; path = CoaSSignalKit/Classes/SQueue.h; sourceTree = "<group>"; };
 		9D4B1769EE1528939206BACB8AF8BF2F /* SSignal+Single.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+Single.h"; path = "CoaSSignalKit/Classes/SSignal+Single.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DA021CF93E1FD69B4AB1D205789FCE3 /* SThreadPoolTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SThreadPoolTask.m; path = CoaSSignalKit/Classes/SThreadPoolTask.m; sourceTree = "<group>"; };
 		A22AC53C937F8A9B9A37756517C8FEE5 /* SVariable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SVariable.h; path = CoaSSignalKit/Classes/SVariable.h; sourceTree = "<group>"; };
 		A6ACB794390B88235165942A166EE119 /* QueueLocalObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QueueLocalObject.m; path = CoaSSignalKit/Classes/QueueLocalObject.m; sourceTree = "<group>"; };
 		A78752150B280B04636E446398040890 /* Promise.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Promise.h; path = CoaSSignalKit/Classes/Promise.h; sourceTree = "<group>"; };
-		A86E87C8E2855EA97F31D6E5A2268F29 /* CoaSSignalKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = CoaSSignalKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A86E87C8E2855EA97F31D6E5A2268F29 /* CoaSSignalKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = CoaSSignalKit.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AF309F11505463C1DF9BE9F6F254C9D9 /* SSignal+Multicast.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+Multicast.m"; path = "CoaSSignalKit/Classes/SSignal+Multicast.m"; sourceTree = "<group>"; };
 		B2A499A9AA0094634828F454F55B98D1 /* SSignal+Take.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+Take.m"; path = "CoaSSignalKit/Classes/SSignal+Take.m"; sourceTree = "<group>"; };
 		B35767B20FD27297E3272F61530C240D /* Pods-CoaSSignalKit_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-CoaSSignalKit_Example.modulemap"; sourceTree = "<group>"; };
 		B7BDC14E52627BA011D53FECFC95ECD6 /* SSignal+Meta.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+Meta.h"; path = "CoaSSignalKit/Classes/SSignal+Meta.h"; sourceTree = "<group>"; };
 		C0EDDE82D5DB45A4D442E7D3C7F1F5CF /* SSignalKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSignalKit.h; path = CoaSSignalKit/Classes/SSignalKit.h; sourceTree = "<group>"; };
-		C5C1C6D0FE854B47A507AEA8CE012E05 /* Pods_CoaSSignalKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_CoaSSignalKit_Example.framework; path = "Pods-CoaSSignalKit_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5C1C6D0FE854B47A507AEA8CE012E05 /* Pods_CoaSSignalKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoaSSignalKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAA01128840D6E0E443937D7205B3711 /* SSignal+Mapping.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+Mapping.m"; path = "CoaSSignalKit/Classes/SSignal+Mapping.m"; sourceTree = "<group>"; };
 		CB4080558116B360C13680E2CA489EDF /* SSignal+SideEffects.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SSignal+SideEffects.h"; path = "CoaSSignalKit/Classes/SSignal+SideEffects.h"; sourceTree = "<group>"; };
 		CBEB2524B59AD01A89F1281C89D52588 /* QueueLocalObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QueueLocalObject.h; path = CoaSSignalKit/Classes/QueueLocalObject.h; sourceTree = "<group>"; };
@@ -182,7 +186,7 @@
 		E3704DB7BA1D4E7E300F247E2321D0E2 /* STimer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = STimer.m; path = CoaSSignalKit/Classes/STimer.m; sourceTree = "<group>"; };
 		EAAABEEF0FDE369E251AAFAA3F74668F /* Pods-CoaSSignalKit_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-CoaSSignalKit_Example-umbrella.h"; sourceTree = "<group>"; };
 		F2B91F35BA8F0F1BD851E213A7A37509 /* Pods-CoaSSignalKit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-CoaSSignalKit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		F8B0B3FC2767A3CC47BF51E5787470BC /* CoaSSignalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CoaSSignalKit.framework; path = CoaSSignalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B0B3FC2767A3CC47BF51E5787470BC /* CoaSSignalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoaSSignalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9FAB4A1DC685D986EB696C8F0CFF696 /* CoaSSignalKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = CoaSSignalKit.modulemap; sourceTree = "<group>"; };
 		FA1FC28562D08C92E6245E63677453F8 /* SSignal+Single.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SSignal+Single.m"; path = "CoaSSignalKit/Classes/SSignal+Single.m"; sourceTree = "<group>"; };
 		FE09B5DEF7D42628301742A294CB4A79 /* Pods-CoaSSignalKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-CoaSSignalKit_Tests-dummy.m"; sourceTree = "<group>"; };
@@ -275,6 +279,8 @@
 				9886A8C879C5906D6D68B55D3E82ED31 /* SBlockDisposable.h */,
 				96B0C32F46FF23D72B1F2F025C14420F /* SBlockDisposable.m */,
 				D172DFD6DAD004E1746DF95F262D7E58 /* SDisposable.h */,
+				407CBE30238FB16F00D760D4 /* SActionDisposable.h */,
+				407CBE31238FB16F00D760D4 /* SActionDisposable.m */,
 				5D36646F9CBB7BA75EB942BB0EA2AB1A /* SDisposableSet.h */,
 				563C0D2FE2E5B5A851049F9172489852 /* SDisposableSet.m */,
 				0B3CCA3965C4A32242C12F18F79816E2 /* SMetaDisposable.h */,
@@ -439,6 +445,7 @@
 				371DB4EF02C39688AB6F04CF6BB71F2C /* SSignal+Mapping.h in Headers */,
 				4CA9D9E4217EFDA39E7D21B91A60D63D /* SSignal+Meta.h in Headers */,
 				EF3E473A27E91E401495B9B35749250B /* SSignal+Multicast.h in Headers */,
+				407CBE32238FB16F00D760D4 /* SActionDisposable.h in Headers */,
 				AAFB37C3D0BBF28ACF6B1A7C0C13E3EE /* SSignal+Pipe.h in Headers */,
 				1BE11E21F4E7522DF01BAFC87C5019C5 /* SSignal+SideEffects.h in Headers */,
 				7DE0FD9EBD098312E5A66F60694685C5 /* SSignal+Single.h in Headers */,
@@ -602,6 +609,7 @@
 				F997861ACF6C886BBF2C38C0B9234264 /* STimer.m in Sources */,
 				AB806EB40D16535DA00C2E17C0E2F3A7 /* SVariable.m in Sources */,
 				21BD94F46A99C4D10E3E0E7C0FA82BD7 /* ValuePipe.m in Sources */,
+				407CBE33238FB16F00D760D4 /* SActionDisposable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,8 +865,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
